@@ -7,7 +7,7 @@ Test server for eShoppping
 
 ## Usage
 
-Run from cmd from top directory:
+Run from cmd from server directory (the one that contains server package):
 
 ```
 python3 -m server
