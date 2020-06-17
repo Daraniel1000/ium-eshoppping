@@ -8,3 +8,5 @@ client/.gradle/
 server/.idea/
 
 server/server/__pycache__/
+
+*.pyc
