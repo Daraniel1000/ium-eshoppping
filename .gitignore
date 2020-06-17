@@ -4,3 +4,7 @@ client/.idea/
 client/build/
 
 client/.gradle/
+
+server/.idea/
+
+server/server/__pycache__/
