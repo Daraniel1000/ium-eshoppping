@@ -1,10 +1,11 @@
 import pandas as pd
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, abort
 
 from server import loaders
 
 app = Flask(__name__)
 app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
+
 
 @app.route('/users', methods=['GET'])
 def users():
@@ -22,13 +23,22 @@ def categories():
 
 @app.route('/products', methods=['GET'])
 def products():
+    category = request.args.get("category")
+    if not category:
+        abort(400, "Parameter \"category\" not passed")
     return jsonify({
-        'products': products_df[products_df["category"] == request.args.get('category')].to_dict(orient="records")
+        'products': products_df[products_df["category"] == category].to_dict(orient="records")
     })
 
 
 @app.route('/predict', methods=['GET'])
 def predict():
+    user_id = request.args.get("user")
+    product_id = request.args.get("product")
+    if not user_id:
+        abort(400, "Parameter \"user\" not passed")
+    if not product_id:
+        abort(400, "Parameter \"product\" not passed")
     return jsonify({
         'prediction': 0.5
     })
@@ -42,6 +52,7 @@ def load_dataset(base_path, file):
 
 
 if __name__ == '__main__':
+    print("Loading server...")
     data_base_path = "data/"
 
     users_df = loaders.load_users(data_base_path)
