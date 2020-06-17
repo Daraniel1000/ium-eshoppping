@@ -1,0 +1,45 @@
+plugins {
+    id 'java'
+    id 'application'
+    id 'org.openjfx.javafxplugin' version '0.0.7'
+    id 'org.beryx.runtime' version '1.1.6'
+}
+
+group 'com.ium.eshoppping.client'
+version '1.0'
+
+sourceCompatibility = JavaVersion.VERSION_11
+
+mainClassName = "com.ium.eshoppping.client.MainApp"
+
+repositories {
+    mavenCentral()
+    jcenter()
+}
+
+dependencies {
+    implementation 'com.google.code.gson:gson:2.8.5'
+    implementation 'com.squareup.retrofit2:retrofit:2.5.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
+    compile group: 'org.controlsfx', name: 'controlsfx', version: '11.0.0'
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'com.ium.eshoppping.client.Launcher'
+    }
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
+
+javafx {
+    version = "12.0.1"
+    modules = ['javafx.controls', 'javafx.fxml', 'javafx.swing']
+}
+
+runtime {
+    addOptions '--strip-debug', '--no-header-files', '--no-man-pages'
+    targetPlatform('linux-x64', '/usr/lib/jvm/jdk_linux-x64')
+    targetPlatform('windows-x64', '/usr/lib/jvm/jdk_windows-x64')
+}
