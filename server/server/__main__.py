@@ -4,7 +4,7 @@ from flask import Flask, jsonify, request
 from server import loaders
 
 app = Flask(__name__)
-
+app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
 
 @app.route('/users', methods=['GET'])
 def users():
