@@ -4,8 +4,7 @@ import java.io.Serializable;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Product implements Serializable
-{
+public class Product implements Serializable {
 
     @SerializedName("category")
     @Expose
@@ -39,6 +38,10 @@ public class Product implements Serializable
     public Product withProductName(String productName) {
         this.productName = productName;
         return this;
+    }
+
+    public String toString(){
+        return productName;
     }
 
 }

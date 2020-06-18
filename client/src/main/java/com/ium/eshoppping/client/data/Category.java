@@ -17,4 +17,8 @@ public class Category implements Serializable
         return this;
     }
 
+    public String toString(){
+        return name;
+    }
+
 }

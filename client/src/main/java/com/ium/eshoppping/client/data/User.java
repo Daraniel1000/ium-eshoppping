@@ -25,4 +25,8 @@ public class User implements Serializable
         return this;
     }
 
+    public String toString(){
+        return name;
+    }
+
 }

@@ -4,6 +4,7 @@ import com.ium.eshoppping.client.communication.responses.categories.GetCategorie
 import com.ium.eshoppping.client.communication.responses.products.GetProductsResponse;
 import com.ium.eshoppping.client.communication.responses.users.GetUsersResponse;
 import com.ium.eshoppping.client.communication.responses.predict.PredictResponse;
+import com.ium.eshoppping.client.data.*;
 
 import java.io.IOException;
 
@@ -16,22 +17,22 @@ public class ServerAccessObject
         this.service = service;
     }
 
-    public GetUsersResponse getUsers() throws IOException
+    public Users getUsers() throws IOException
     {
         return this.service.getUsers().execute().body();
     }
 
-    public GetCategoriesResponse getCategories() throws IOException
+    public Categories getCategories() throws IOException
     {
         return this.service.getCategories().execute().body();
     }
 
-    public GetProductsResponse getProducts(String categoryName) throws IOException
+    public Products getProducts(String categoryName) throws IOException
     {
         return this.service.getProducts(categoryName).execute().body();
     }
 
-    public PredictResponse predict(String userId, String productName) throws IOException
+    public Prediction predict(String userId, String productName) throws IOException
     {
         return this.service.predict(userId, productName).execute().body();
     }

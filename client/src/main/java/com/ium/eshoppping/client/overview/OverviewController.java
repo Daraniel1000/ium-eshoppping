@@ -1,6 +1,11 @@
 package com.ium.eshoppping.client.overview;
 
+import com.ium.eshoppping.client.MainApp;
 import com.ium.eshoppping.client.communication.ServerAccessObject;
+import com.ium.eshoppping.client.data.Categories;
+import com.ium.eshoppping.client.data.Category;
+import com.ium.eshoppping.client.data.Product;
+import com.ium.eshoppping.client.data.Products;
 import com.ium.eshoppping.client.details.DetailsController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -17,39 +22,50 @@ public class OverviewController
     private final Stage stage;
     private final Parent previousParent;
     private final ServerAccessObject sao;
-    private final String user;
+    private final int userID;
     @FXML
     private Button backButton;
     @FXML
-    private ListView<String> categoriesList; // TODO ListView<Category>
+    private ListView<Category> categoriesList;
     @FXML
-    private ListView<String> productsList; // TODO ListView<Category>
+    private ListView<Product> productsList;
 
-    public OverviewController(Stage stage, Parent previousParent, ServerAccessObject sao, String user)
+    public OverviewController(Stage stage, Parent previousParent, ServerAccessObject sao, int userID)
     {
         this.stage = stage;
         this.previousParent = previousParent;
         this.sao = sao;
-        this.user = user;
+        this.userID = userID;
     }
 
     @FXML
     public void initialize()
     {
         // do something on start (after fxml loaded)
-        categoriesList.getItems().add("category1");
-        categoriesList.getItems().add("category2");
-        categoriesList.getItems().add("category3");
-        categoriesList.getItems().add("category4");
-        categoriesList.getItems().add("category5");
 
-        categoriesList.getSelectionModel()
-                      .selectedItemProperty()
-                      .addListener(((observable, oldValue, newValue) -> showProducts(newValue)));
-        productsList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            if(newValue != null)
-                showDetails(newValue);
-        });
+        Categories categories = null;
+        try {
+            categories = sao.getCategories();
+            for (Category i: categories.categories) {
+                categoriesList.getItems().add(i);
+            }
+
+            categoriesList.getSelectionModel()
+                    .selectedItemProperty()
+                    .addListener(((observable, oldValue, newValue) -> {
+                        try {
+                            showProducts(newValue.name);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }));
+            productsList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+                if(newValue != null)
+                    showDetails(newValue);
+            });
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
@@ -58,21 +74,19 @@ public class OverviewController
         stage.getScene().setRoot(previousParent);
     }
 
-    private void showProducts(String category)
-    {
+    private void showProducts(String category) throws IOException {
         productsList.getItems().clear();
-        productsList.getItems().add("product1");
-        productsList.getItems().add("product2");
-        productsList.getItems().add("product3");
-        productsList.getItems().add("product4");
-        productsList.getItems().add("product5");
+        Products products = sao.getProducts(category);
+        for(Product i: products.products) {
+            productsList.getItems().add(i);
+        }
         productsList.setVisible(true);
     }
 
-    private void showDetails(String product)
+    private void showDetails(Product product)
     {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/details.fxml"));
-        DetailsController controller = new DetailsController(stage, stage.getScene().getRoot(), sao, this.user,
+        DetailsController controller = new DetailsController(stage, stage.getScene().getRoot(), sao, this.userID,
                                                              product);
         loader.setController(controller);
         Parent root;
