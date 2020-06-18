@@ -14,7 +14,7 @@ def get_input_vector(user_id, product_id, products, sessions, time, offered_disc
 
     category = products[products["product_id"] == product_id]["category"].values[0]
 
-    t = sessions[(sessions["user_id"] == user_id) & (sessions["timestamp"] <= time)][
+    t = sessions[(sessions["user_id"] == user_id) & (sessions["timestamp"] < time)][
         ["session_id", "product_id", "event_type", "offered_discount", "timestamp"]]
     t = t.merge(products[["product_id", "price", "category"]], on="product_id").drop("product_id", axis=1)
     t = t.groupby(t.columns.drop(["event_type", "timestamp"]).tolist() + ["event_type"])[
@@ -25,8 +25,9 @@ def get_input_vector(user_id, product_id, products, sessions, time, offered_disc
         t = pd.DataFrame(columns=["offered_discount", "price", "category", "BUY_PRODUCT"])
 
     t = t[t["BUY_PRODUCT"] is True]
+    t["offered_price"] = (1 - 0.01 * t["offered_discount"]) * t["price"]
 
-    mean_previous_category_price = replace(t[t["category"] == category]["price"].mean(), np.nan, 0)
+    mean_previous_category_price = replace(t[t["category"] == category]["offered_price"].mean(), np.nan, 0)
     product_price = products[products["product_id"] == product_id]["price"].values[0]
     offered_price = (1 - 0.01 * offered_discount) * product_price
     ratio = 1 if mean_previous_category_price == 0 else replace(offered_price / mean_previous_category_price,
