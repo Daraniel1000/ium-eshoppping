@@ -1,28 +1,23 @@
-
 package com.ium.eshoppping.client.data;
 
 import java.io.Serializable;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({
-    "category",
-    "price",
-    "product_id",
-    "product_name"
-})
 public class Product implements Serializable
 {
 
-    @JsonProperty("category")
+    @SerializedName("category")
+    @Expose
     public String category;
-    @JsonProperty("price")
+    @SerializedName("price")
+    @Expose
     public Double price;
-    @JsonProperty("product_id")
+    @SerializedName("product_id")
+    @Expose
     public Integer productId;
-    @JsonProperty("product_name")
+    @SerializedName("product_name")
+    @Expose
     public String productName;
     private final static long serialVersionUID = 1562816085536459971L;
 

@@ -1,19 +1,14 @@
-
 package com.ium.eshoppping.client.data;
 
 import java.io.Serializable;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({
-    "name"
-})
 public class Category implements Serializable
 {
 
-    @JsonProperty("name")
+    @SerializedName("name")
+    @Expose
     public String name;
     private final static long serialVersionUID = 3151866342126808476L;
 

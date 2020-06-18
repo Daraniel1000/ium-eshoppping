@@ -1,20 +1,15 @@
-
 package com.ium.eshoppping.client.data;
 
 import java.io.Serializable;
 import java.util.List;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
-@JsonPropertyOrder({
-    "users"
-})
 public class Users implements Serializable
 {
 
-    @JsonProperty("users")
+    @SerializedName("users")
+    @Expose
     public List<User> users = null;
     private final static long serialVersionUID = -1817023511322374755L;
 
