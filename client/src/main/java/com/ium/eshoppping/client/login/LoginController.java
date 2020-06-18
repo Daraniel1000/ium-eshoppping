@@ -1,6 +1,8 @@
 package com.ium.eshoppping.client.login;
 
 import com.ium.eshoppping.client.communication.ServerAccessObject;
+import com.ium.eshoppping.client.data.User;
+import com.ium.eshoppping.client.data.Users;
 import com.ium.eshoppping.client.overview.OverviewController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -17,7 +19,7 @@ public class LoginController
     private final Stage stage;
     private final ServerAccessObject sao;
     @FXML
-    private ChoiceBox<String> choiceBox; // TODO ChoiceBox<User>
+    private ChoiceBox<User> choiceBox;
     @FXML
     private Button loginButton;
 
@@ -31,11 +33,14 @@ public class LoginController
     public void initialize()
     {
         // do something on start (after fxml loaded)
-        choiceBox.getItems().add("user1");
-        choiceBox.getItems().add("user2");
-        choiceBox.getItems().add("user3");
-        choiceBox.getItems().add("user4");
-        choiceBox.getItems().add("user5");
+        try {
+            Users users = sao.getUsers();
+            for (User i: users.users) {
+                choiceBox.getItems().add(i);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         choiceBox.setValue(choiceBox.getItems().get(0));
     }
@@ -45,7 +50,7 @@ public class LoginController
     {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/overview.fxml"));
         OverviewController controller = new OverviewController(stage, stage.getScene().getRoot(), sao,
-                                                               choiceBox.getValue());
+                                                               choiceBox.getValue().userId);
         loader.setController(controller);
         Parent root;
         try

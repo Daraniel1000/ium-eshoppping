@@ -72,7 +72,7 @@ public class MainApp extends Application
 
     private Retrofit buildRetrofit(OkHttpClient httpClient)
     {
-        String BASE_URL = "http://localhost"; // TODO
+        String BASE_URL = "http://localhost:8080"; // TODO
 
         return new Retrofit.Builder()
                 .baseUrl(BASE_URL)
