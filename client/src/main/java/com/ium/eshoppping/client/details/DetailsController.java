@@ -25,6 +25,8 @@ public class DetailsController
     private Label productNameLabel;
     @FXML
     private Label productPriceLabel;
+    @FXML
+    private Label finalPriceLabel;
 
     public DetailsController(Stage stage, Parent previousParent, ServerAccessObject sao, int user, Product product)
     {
@@ -39,7 +41,8 @@ public class DetailsController
     public void initialize() throws IOException {
         productNameLabel.setText(this.product.productName);
         Prediction prediction = sao.predict(user.toString(), product.productName);
-        productPriceLabel.setText(((Double)(prediction.prediction * product.price)).toString());
+        productPriceLabel.setText(((Double)product.price).toString());
+        finalPriceLabel.setText(((Double)(prediction.prediction * product.price)).toString());
     }
 
     @FXML

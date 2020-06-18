@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import java.lang.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
     <children>
         <VBox alignment="TOP_CENTER" spacing="10.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="10.0">
             <children>
-                <HBox alignment="BOTTOM_LEFT" fillHeight="false">
+                <HBox fillHeight="false">
                     <children>
                         <Button fx:id="backButton" mnemonicParsing="false" onAction="#onBackClicked" text="Back" />
                     </children>
@@ -17,12 +19,29 @@
                         <Insets />
                     </VBox.margin>
                 </HBox>
-            <VBox alignment="CENTER" spacing="20.0" VBox.vgrow="ALWAYS">
-               <children>
-                  <Label fx:id="productNameLabel" text="Label" />
-                  <Label fx:id="productPriceLabel" text="Label" />
-               </children>
-            </VBox>
+                <HBox alignment="CENTER" fillHeight="true">
+                    <children>
+                        <VBox alignment="CENTER_RIGHT" spacing="20.0" VBox.vgrow="ALWAYS">
+                            <children>
+                                <Label text="Nazwa:" />
+                                <Label text="Oryginalna cena:" />
+                                <Label text="Cena po zniżce:" />
+                            </children>
+                        </VBox>
+                  <VBox prefHeight="200.0" prefWidth="20.0" />
+                        <VBox alignment="CENTER_LEFT" spacing="20.0">
+                            <children>
+                                <Label fx:id="productNameLabel" text="ProductName" />
+                                <Label fx:id="productPriceLabel" text="ProductPrice" />
+                                <Label fx:id="finalPriceLabel" text="finalPrice" />
+                            </children>
+                        </VBox>
+                    </children>
+                    <VBox.margin>
+                        <Insets />
+                    </VBox.margin>
+                </HBox>
+
             </children>
         </VBox>
     </children>

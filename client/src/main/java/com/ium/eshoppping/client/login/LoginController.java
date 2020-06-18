@@ -19,7 +19,7 @@ public class LoginController
     private final Stage stage;
     private final ServerAccessObject sao;
     @FXML
-    private ChoiceBox<User> choiceBox; // TODO ChoiceBox<User>
+    private ChoiceBox<User> choiceBox;
     @FXML
     private Button loginButton;
 

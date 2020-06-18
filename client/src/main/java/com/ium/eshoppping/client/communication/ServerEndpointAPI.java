@@ -1,9 +1,5 @@
 package com.ium.eshoppping.client.communication;
-
-import com.ium.eshoppping.client.communication.responses.categories.GetCategoriesResponse;
-import com.ium.eshoppping.client.communication.responses.products.GetProductsResponse;
-import com.ium.eshoppping.client.communication.responses.users.GetUsersResponse;
-import com.ium.eshoppping.client.communication.responses.predict.PredictResponse;
+//TODO wrzucić data do responses i wywalić poprzednie
 import com.ium.eshoppping.client.data.*;
 import retrofit2.Call;
 import retrofit2.http.GET;
