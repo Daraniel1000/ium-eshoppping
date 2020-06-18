@@ -28,8 +28,8 @@ public class ServerAccessObject
         return this.service.getProducts(categoryName).execute().body();
     }
 
-    public Prediction predict(String userId, String productName) throws IOException
+    public Prediction predict(String userId, String productID) throws IOException
     {
-        return this.service.predict(userId, productName).execute().body();
+        return this.service.predict(userId, productID).execute().body();
     }
 }

@@ -17,5 +17,5 @@ public interface ServerEndpointAPI
     Call<Products> getProducts(@Query("category") String categoryName);
 
     @GET("predict")
-    Call<Prediction> predict(@Query("user") String userId, @Query("product") String productName);
+    Call<Prediction> predict(@Query("user") String userId, @Query("product") String productID);
 }

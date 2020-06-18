@@ -42,9 +42,9 @@ public class DetailsController
     @FXML
     public void initialize() throws IOException {
         productNameLabel.setText(this.product.productName);
-        Prediction prediction = sao.predict(user.toString(), product.productName);
+        Prediction prediction = sao.predict(user.toString(), product.productId.toString());
         productPriceLabel.setText("Oryginalna cena: " + product.price);
-        BigDecimal newPrice = new BigDecimal(Double.toString(prediction.prediction * product.price));
+        BigDecimal newPrice = new BigDecimal(Double.toString((100 - prediction.predictedDiscount) * product.price / 100));
         finalPriceLabel.setText("Cena po zniżce: " + newPrice.setScale(2, RoundingMode.HALF_UP));
     }
 

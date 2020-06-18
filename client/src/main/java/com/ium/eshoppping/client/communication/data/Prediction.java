@@ -7,18 +7,14 @@ import com.google.gson.annotations.SerializedName;
 public class Prediction implements Serializable
 {
 
-    @SerializedName("prediction")
+    @SerializedName("predicted_discount")
     @Expose
-    public Double prediction;
-    private final static long serialVersionUID = 7245946199961952777L;
+    public Integer predictedDiscount;
+    private final static long serialVersionUID = -2099752986232784209L;
 
-    public Prediction withPrediction(Double prediction) {
-        this.prediction = prediction;
+    public Prediction withPredictedDiscount(Integer predictedDiscount) {
+        this.predictedDiscount = predictedDiscount;
         return this;
-    }
-
-    public String toString(){
-        return prediction.toString();
     }
 
 }
