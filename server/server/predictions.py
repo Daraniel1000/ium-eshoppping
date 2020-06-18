@@ -24,6 +24,8 @@ def get_input_vector(user_id, product_id, products, sessions, time, offered_disc
     else:
         t = pd.DataFrame(columns=["offered_discount", "price", "category", "BUY_PRODUCT"])
 
+    t = t[t["BUY_PRODUCT"] is True]
+
     mean_previous_category_price = replace(t[t["category"] == category]["price"].mean(), np.nan, 0)
     product_price = products[products["product_id"] == product_id]["price"].values[0]
     offered_price = (1 - 0.01 * offered_discount) * product_price
