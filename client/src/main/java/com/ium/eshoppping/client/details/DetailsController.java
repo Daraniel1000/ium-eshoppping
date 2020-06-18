@@ -11,6 +11,8 @@ import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 public class DetailsController
 {
@@ -41,8 +43,9 @@ public class DetailsController
     public void initialize() throws IOException {
         productNameLabel.setText(this.product.productName);
         Prediction prediction = sao.predict(user.toString(), product.productName);
-        productPriceLabel.setText(((Double)product.price).toString());
-        finalPriceLabel.setText(((Double)(prediction.prediction * product.price)).toString());
+        productPriceLabel.setText("Oryginalna cena: " + product.price);
+        BigDecimal newPrice = new BigDecimal(Double.toString(prediction.prediction * product.price));
+        finalPriceLabel.setText("Cena po zniżce: " + newPrice.setScale(2, RoundingMode.HALF_UP));
     }
 
     @FXML

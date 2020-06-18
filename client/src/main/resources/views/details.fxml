@@ -19,17 +19,9 @@
                         <Insets />
                     </VBox.margin>
                 </HBox>
-                <HBox alignment="CENTER" fillHeight="true">
+                <HBox alignment="CENTER" fillHeight="true" VBox.vgrow="ALWAYS">
                     <children>
-                        <VBox alignment="CENTER_RIGHT" spacing="20.0" VBox.vgrow="ALWAYS">
-                            <children>
-                                <Label text="Nazwa:" />
-                                <Label text="Oryginalna cena:" />
-                                <Label text="Cena po zniżce:" />
-                            </children>
-                        </VBox>
-                  <VBox prefHeight="200.0" prefWidth="20.0" />
-                        <VBox alignment="CENTER_LEFT" spacing="20.0">
+                        <VBox alignment="CENTER" spacing="20.0">
                             <children>
                                 <Label fx:id="productNameLabel" text="ProductName" />
                                 <Label fx:id="productPriceLabel" text="ProductPrice" />
