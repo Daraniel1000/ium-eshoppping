@@ -1,8 +1,8 @@
 package com.ium.eshoppping.client.details;
 
 import com.ium.eshoppping.client.communication.ServerAccessObject;
-import com.ium.eshoppping.client.data.Prediction;
-import com.ium.eshoppping.client.data.Product;
+import com.ium.eshoppping.client.communication.data.Prediction;
+import com.ium.eshoppping.client.communication.data.Product;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;

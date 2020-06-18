@@ -1,4 +1,4 @@
-package com.ium.eshoppping.client.data;
+package com.ium.eshoppping.client.communication.data;
 
 import java.io.Serializable;
 import com.google.gson.annotations.Expose;

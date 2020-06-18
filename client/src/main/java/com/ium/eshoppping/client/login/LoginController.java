@@ -1,8 +1,8 @@
 package com.ium.eshoppping.client.login;
 
 import com.ium.eshoppping.client.communication.ServerAccessObject;
-import com.ium.eshoppping.client.data.User;
-import com.ium.eshoppping.client.data.Users;
+import com.ium.eshoppping.client.communication.data.User;
+import com.ium.eshoppping.client.communication.data.Users;
 import com.ium.eshoppping.client.overview.OverviewController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

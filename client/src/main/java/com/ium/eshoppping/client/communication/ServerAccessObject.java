@@ -1,6 +1,6 @@
 package com.ium.eshoppping.client.communication;
 
-import com.ium.eshoppping.client.data.*;
+import com.ium.eshoppping.client.communication.data.*;
 
 import java.io.IOException;
 

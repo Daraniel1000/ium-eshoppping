@@ -1,6 +1,6 @@
 package com.ium.eshoppping.client.communication;
 //TODO wrzucić data do responses i wywalić poprzednie
-import com.ium.eshoppping.client.data.*;
+import com.ium.eshoppping.client.communication.data.*;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;

@@ -1,11 +1,10 @@
 package com.ium.eshoppping.client.overview;
 
-import com.ium.eshoppping.client.MainApp;
 import com.ium.eshoppping.client.communication.ServerAccessObject;
-import com.ium.eshoppping.client.data.Categories;
-import com.ium.eshoppping.client.data.Category;
-import com.ium.eshoppping.client.data.Product;
-import com.ium.eshoppping.client.data.Products;
+import com.ium.eshoppping.client.communication.data.Categories;
+import com.ium.eshoppping.client.communication.data.Category;
+import com.ium.eshoppping.client.communication.data.Product;
+import com.ium.eshoppping.client.communication.data.Products;
 import com.ium.eshoppping.client.details.DetailsController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
