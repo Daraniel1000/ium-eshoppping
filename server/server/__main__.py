@@ -55,9 +55,13 @@ if __name__ == '__main__':
     print("Loading server. It may take a while...")
     data_base_path = "data/"
 
-    users_df = loaders.get_api_users(data_base_path)
-    categories_df = loaders.get_api_categories(data_base_path)
-    products_df = loaders.get_api_products(data_base_path)
-    aggregated_df = loaders.get_aggregated(data_base_path)
+    try:
+        users_df = loaders.get_api_users(data_base_path)
+        categories_df = loaders.get_api_categories(data_base_path)
+        products_df = loaders.get_api_products(data_base_path)
+        aggregated_df = loaders.get_aggregated(data_base_path)
+    except IOError as e:
+        print("Can't load server. Error occurred: ", e)
+        exit(1)
 
     app.run(port=8080)

@@ -6,7 +6,10 @@ def load_dataset(base_path, file):
     if base_path[-1] != '/':
         base_path += '/'
 
-    return pd.read_json(base_path + file, lines=True)
+    try:
+        return pd.read_json(base_path + file, lines=True)
+    except Exception as e:
+        raise IOError("Can't create dataframe from " + base_path+file + ". " + str(e))
 
 
 def aggregate(users_df, products_df, sessions_df):
