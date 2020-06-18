@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>eShoppping Server</title>
+        <link rel="shortcut icon" type="image/png" href="../static/img/favicon.png">
+        <link rel="stylesheet" href="../static/css/styles.css">
+    </head>
+    <body style="margin: 0;">
+        <section class="fill-height-grid">
+            <div>
+                <div>
+                    <header>
+                        <h1>eShoppping Server</h1>
+                    </header>
+                </div>
+            </div>
+            <div>
+                <div>
+                    <header>
+                        <h1>endpoints:</h1>
+                    </header>
+                </div>
+            </div>
+            <div>
+                <div>
+                    <a href="/users" class="endpoint">
+                        <h1>users</h1>
+                    </a>
+                    <p class="subtitle">no parameters</p>
+                </div>
+                <div>
+                    <a href="/categories" class="endpoint">
+                        <h1>categories</h1>
+                    </a>
+                    <p class="subtitle">no parameters</p>
+                </div>
+                <div>
+                    <a href="/products?category=sample_category" class="endpoint">
+                        <h1>products</h1>
+                    </a>
+                    <p class="subtitle">parameters: category</p>
+                </div>
+                <div>
+                    <a href="/predict?user=sample_user&product=sample_product" class="endpoint">
+                        <h1>predict</h1>
+                    </a>
+                    <p class="subtitle">parameters: user, product</p>
+                </div>
+            </div>
+        </section>
+    </body>
+</html>
