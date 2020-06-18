@@ -29,13 +29,13 @@ def get_input_vector(user_id, product_id, products, sessions, time, offered_disc
     offered_price = (1 - 0.01 * offered_discount) * product_price
     ratio = 1 if mean_previous_category_price == 0 else replace(offered_price / mean_previous_category_price,
                                                                 np.inf, 1)
-    previous_all_discount_less_equal = replace(t[t["offered_discount"] <= offered_discount]["price"].mean(), np.nan,
+    previous_all_discount_less_equal = replace(t[t["offered_discount"] <= offered_discount]["price"].count(), np.nan,
                                                0)
-    previous_all_discount_greater = replace(t[t["offered_discount"] > offered_discount]["price"].mean(), np.nan, 0)
+    previous_all_discount_greater = replace(t[t["offered_discount"] > offered_discount]["price"].count(), np.nan, 0)
     previous_category_discount_less_equal = replace(
-        t[(t["offered_discount"] <= offered_discount) & (t["category"] == category)]["price"].mean(), np.nan, 0)
+        t[(t["offered_discount"] <= offered_discount) & (t["category"] == category)]["price"].count(), np.nan, 0)
     previous_category_discount_greater = replace(
-        t[(t["offered_discount"] > offered_discount) & (t["category"] == category)]["price"].mean(), np.nan, 0)
+        t[(t["offered_discount"] > offered_discount) & (t["category"] == category)]["price"].count(), np.nan, 0)
 
     return [offered_discount,
             product_price,
