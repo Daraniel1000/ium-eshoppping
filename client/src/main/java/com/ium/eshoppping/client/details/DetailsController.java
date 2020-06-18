@@ -29,6 +29,8 @@ public class DetailsController
     private Label productPriceLabel;
     @FXML
     private Label finalPriceLabel;
+    @FXML
+    private Label productDiscountLabel;
 
     public DetailsController(Stage stage, Parent previousParent, ServerAccessObject sao, int user, Product product)
     {
@@ -43,9 +45,17 @@ public class DetailsController
     public void initialize() throws IOException {
         productNameLabel.setText(this.product.productName);
         Prediction prediction = sao.predict(user.toString(), product.productId.toString());
-        productPriceLabel.setText("Oryginalna cena: " + product.price);
-        BigDecimal newPrice = new BigDecimal(Double.toString((100 - prediction.predictedDiscount) * product.price / 100));
-        finalPriceLabel.setText("Cena po zniżce: " + newPrice.setScale(2, RoundingMode.HALF_UP));
+        BigDecimal price = new BigDecimal(Double.toString(product.price));
+        productPriceLabel.setText("Oryginalna cena: " + price.setScale(2));
+        if(prediction.predictedDiscount == 0) {
+            productDiscountLabel.setText("");
+            finalPriceLabel.setText("");
+        }
+        else {
+            productDiscountLabel.setText("Zniżka: " + prediction.predictedDiscount + "%");
+            price = new BigDecimal(Double.toString((100 - prediction.predictedDiscount) * product.price / 100));
+            finalPriceLabel.setText("Cena po zniżce: " + price.setScale(2, RoundingMode.HALF_UP));
+        }
     }
 
     @FXML

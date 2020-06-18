@@ -1,9 +1,12 @@
 package com.ium.eshoppping.client.login;
 
+import com.ium.eshoppping.client.MainApp;
 import com.ium.eshoppping.client.communication.ServerAccessObject;
 import com.ium.eshoppping.client.communication.data.User;
 import com.ium.eshoppping.client.communication.data.Users;
 import com.ium.eshoppping.client.overview.OverviewController;
+import com.ium.eshoppping.client.utils.FXHelper;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -39,6 +42,7 @@ public class LoginController
                 choiceBox.getItems().add(i);
             }
         } catch (IOException e) {
+            FXHelper.showErrorDialog("Eshoppping - błąd połączenia", "Nie udało się pobrać listy użytkowników.");
             e.printStackTrace();
         }
 
@@ -59,6 +63,7 @@ public class LoginController
         }
         catch(IOException e)
         {
+            FXHelper.showErrorDialog("Eshoppping - błąd połączenia", "Nie udało się pobrać listy kategorii");
             e.printStackTrace();
             return;
         }

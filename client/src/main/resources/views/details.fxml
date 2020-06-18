@@ -23,7 +23,8 @@
                     <children>
                         <Label fx:id="productNameLabel" text="ProductName" />
                         <Label fx:id="productPriceLabel" text="ProductPrice" />
-                        <Label fx:id="finalPriceLabel" text="finalPrice" />
+                        <Label fx:id="productDiscountLabel" text="ProductDiscount"/>
+                        <Label fx:id="finalPriceLabel" text="FinalPrice" />
                     </children>
                 </VBox>
 

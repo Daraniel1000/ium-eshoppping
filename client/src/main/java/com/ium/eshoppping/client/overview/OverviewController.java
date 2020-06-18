@@ -6,6 +6,8 @@ import com.ium.eshoppping.client.communication.data.Category;
 import com.ium.eshoppping.client.communication.data.Product;
 import com.ium.eshoppping.client.communication.data.Products;
 import com.ium.eshoppping.client.details.DetailsController;
+import com.ium.eshoppping.client.utils.FXHelper;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -38,33 +40,29 @@ public class OverviewController
     }
 
     @FXML
-    public void initialize()
-    {
+    public void initialize() throws IOException {
         // do something on start (after fxml loaded)
 
         Categories categories = null;
-        try {
-            categories = sao.getCategories();
-            for (Category i: categories.categories) {
-                categoriesList.getItems().add(i);
-            }
-
-            categoriesList.getSelectionModel()
-                    .selectedItemProperty()
-                    .addListener(((observable, oldValue, newValue) -> {
-                        try {
-                            showProducts(newValue.name);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }));
-            productsList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-                if(newValue != null)
-                    showDetails(newValue);
-            });
-        } catch (IOException e) {
-            e.printStackTrace();
+        categories = sao.getCategories();
+        for (Category i: categories.categories) {
+            categoriesList.getItems().add(i);
         }
+        categoriesList.getSelectionModel()
+                .selectedItemProperty()
+                .addListener(((observable, oldValue, newValue) -> {
+                    try {
+                        showProducts(newValue.name);
+                    } catch (IOException e) {
+                        FXHelper.showErrorDialog("Eshoppping - błąd połączenia",
+                                "Nie udało się pobrać listy produktów.");
+                        e.printStackTrace();
+                    }
+                }));
+        productsList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if(newValue != null)
+                showDetails(newValue);
+        });
     }
 
     @FXML
@@ -95,6 +93,7 @@ public class OverviewController
         }
         catch(IOException e)
         {
+            FXHelper.showErrorDialog("Eshoppping - błąd połączenia", "Nie udało się pobrać zniżki.");
             e.printStackTrace();
             return;
         }
