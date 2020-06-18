@@ -1,10 +1,15 @@
 import pandas as pd
-from flask import Flask, jsonify, request, abort
+from flask import Flask, jsonify, request, abort, render_template
 
 from server import loaders
 
 app = Flask(__name__)
 app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
+
+
+@app.route('/', methods=['GET', 'POST'])
+def index():
+    return render_template("index.html")
 
 
 @app.route('/users', methods=['GET'])
