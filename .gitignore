@@ -10,3 +10,7 @@ server/.idea/
 server/server/__pycache__/
 
 *.pyc
+
+learning/.ipynb_checkpoints/
+
+learning/tools/
