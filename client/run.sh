@@ -4,21 +4,30 @@ print_usage()
 {
     echo
     echo "eShoppping Server"
-    echo "Correct execution is : $0"
+    echo "Correct execution is : $0 [serverPort]"
+    echo
+    echo "serverPort - port at which the server runs"
     echo
 }
 
-if ! [ "$#" -eq 0 ]
+if [ "$#" -gt 1 ]
 then
-    echo "Exactly zero arguments are needed"
+    echo "At most one argument is needed"
     print_usage
     exit 1
+fi
+
+if [ -z "$*" ]
+then
+    args=""
+else
+    args="--args=$@"
 fi
 
 if command -v 'gradle'
 then
     echo "Using local Gradle installation."
-    gradle run
+    gradle run $args
     exit "$?"
 fi
 
@@ -46,5 +55,5 @@ then
 fi
 
 echo "Using Gradle wrapper."
-./gradlew run
+./gradlew run $args
 exit "$?"

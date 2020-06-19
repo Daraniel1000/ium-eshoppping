@@ -6,13 +6,13 @@ print_usage()
 {
     echo
     echo "eShoppping"
-    echo "Correct execution is : $0 {`echo "$possible_targets" | sed 's/ /, /'`}"
+    echo "Correct execution is : $0 {`echo "$possible_targets" | sed 's/ /, /'`} ..."
     echo
 }
 
-if ! [ "$#" -eq 1 ]
+if [ "$#" -lt 1 ]
 then
-    echo "Exactly one argument in needed"
+    echo "At least one argument is needed"
     print_usage
     exit 1
 fi
@@ -40,6 +40,7 @@ then
     exit 4
 fi
 
+echo "Changing directory to $target"
 cd "$target"
 
 
@@ -57,4 +58,15 @@ then
     exit 4
 fi
 
-./run.sh
+shift
+echo "Running $target/run.sh from $target"
+./run.sh "$@"
+
+exitval="$?"
+
+if ! [ "$exitval" -eq 0 ]
+then
+    echo "Running $target/run.sh from $target failed"
+    print_usage
+fi
+exit "$exitval"

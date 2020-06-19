@@ -6,7 +6,7 @@ def replace(value, bad, good):
     return value if value is not bad else good
 
 
-def get_input_vector(user_id, product_id, products, sessions, time, offered_discount):
+def get_input_vector(user_id, product_id, users, products, sessions, time, offered_discount, encoder, scaler):
     # trigonometric functions of time (so it's cyclical)
     month_sin = np.sin((time.month - 1) * (2. * np.pi / 12))
     month_cos = np.cos((time.month - 1) * (2. * np.pi / 12))
@@ -58,32 +58,38 @@ def get_input_vector(user_id, product_id, products, sessions, time, offered_disc
     previous_category_discount_greater = replace(
         t[(t["offered_discount"] > offered_discount) & (t["category"] == category)]["price"].count(), np.nan, 0)
 
-    return [offered_discount,
-            product_price,
-            offered_price,
-            month_sin,
-            month_cos,
-            day_sin,
-            day_cos,
-            mean_previous_category_price,
-            ratio,
-            previous_all_discount_less_equal,
-            previous_all_discount_greater,
-            previous_category_discount_less_equal,
-            previous_category_discount_greater]
+    city = users[users["user_id"] == user_id]["city"].values[0]
+    categoricals = encoder.transform([[category, city]]).toarray()
+
+    return scaler.transform([np.append([offered_discount,
+                                        product_price,
+                                        offered_price,
+                                        month_sin,
+                                        month_cos,
+                                        day_sin,
+                                        day_cos,
+                                        mean_previous_category_price,
+                                        ratio,
+                                        previous_all_discount_less_equal,
+                                        previous_all_discount_greater,
+                                        previous_category_discount_less_equal,
+                                        previous_category_discount_greater], categoricals)])
 
 
-def predict_discount(user_id, product_id, products, sessions, model):
+def predict_discount(user_id, product_id, users, products, sessions, model, encoder, scaler):
     if products[products["product_id"] == product_id].empty:
         raise IndexError("Product id " + product_id + " not found")
+    if users[users["user_id"] == user_id].empty:
+        raise IndexError("User id " + user_id + " not found")
 
     time = pd.to_datetime('now')
     discounts = [0, 5, 10, 15, 20]
 
     for offered_discount in discounts:
-        input_vector = get_input_vector(user_id, product_id, products, sessions, time, offered_discount)
+        input_vector = get_input_vector(user_id, product_id, users, products, sessions, time, offered_discount, encoder,
+                                        scaler)
 
-        will_buy = model.predict([input_vector])[0]
+        will_buy = model.predict(input_vector)[0]
 
         if will_buy:
             return offered_discount

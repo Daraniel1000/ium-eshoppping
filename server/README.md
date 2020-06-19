@@ -10,16 +10,23 @@ Test server for eShoppping
 
 ## Usage
 
-Run from cmd from server directory (the one that contains server package):
+To run the server:
 
 ```
-python3 -m server
+./run.sh model [port]
 ```
 
-Server will run on port 8080, so you can access it locally at:
+Arguments:
+
+- ```model``` - path to model file
+
+- ```port``` (optional) - port at which to run the server (defaults to 8080)
+
+
+Server will run on given port, so you can access it locally at:
 
 ```
-http://localhost:8080/...
+http://localhost:port/...
 ```
 
 ## Endpoints

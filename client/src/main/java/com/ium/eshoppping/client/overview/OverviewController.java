@@ -7,7 +7,6 @@ import com.ium.eshoppping.client.communication.data.Product;
 import com.ium.eshoppping.client.communication.data.Products;
 import com.ium.eshoppping.client.details.DetailsController;
 import com.ium.eshoppping.client.utils.FXHelper;
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -56,7 +55,6 @@ public class OverviewController
                     } catch (IOException e) {
                         FXHelper.showErrorDialog("Eshoppping - błąd połączenia",
                                 "Nie udało się pobrać listy produktów.");
-                        e.printStackTrace();
                     }
                 }));
         productsList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
@@ -94,7 +92,6 @@ public class OverviewController
         catch(IOException e)
         {
             FXHelper.showErrorDialog("Eshoppping - błąd połączenia", "Nie udało się pobrać zniżki.");
-            e.printStackTrace();
             return;
         }
 

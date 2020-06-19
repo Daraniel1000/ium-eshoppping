@@ -5,31 +5,20 @@ Test eShoppping client app
 ## Requirements
 
 - JDK 11 
-- Gradle (wrapper can be used without Gradle installation)
+- Gradle 4.10.3 (wrapper can be used without Gradle installation)
 
 ## Usage
 
 Make sure you have `JAVA_HOME` set to correct JDK path
 
-- Using local Gradle installation
+To run the client:
 
-    ```
-    gradle run
-    ```
-    or if you want to make .jar:
-    ```
-    gradle jar
-    ```
-    
-- Using Gradle wrapper
+```
+./run.sh [serverPort]
+```
 
-    ```
-    ./gradlew run
-    ```
-    or if you want to make .jar:
-    ```
-    ./gradlew jar
-    ```
+Arguments:
 
-(Note: the .jar will only work on the OS it was compiled on)
+- ```serverPort``` (optional) - port at which the server runs (defaults to 8080)
 
+If you have Gradle installed, it will be used. Otherwise the wrapper will be used.

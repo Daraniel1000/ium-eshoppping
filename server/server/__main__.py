@@ -1,6 +1,7 @@
+import argparse
+
 import pandas as pd
 from flask import Flask, jsonify, request, abort, render_template
-from sklearn.dummy import DummyClassifier
 
 from server import loaders
 from server import predictions
@@ -48,7 +49,8 @@ def predict():
         abort(400, "Parameter \"product\" not passed")
     try:
         return jsonify({
-            'predicted_discount': predictions.predict_discount(user_id, product_id, products_df, sessions_df, model)
+            'predicted_discount': predictions.predict_discount(user_id, product_id, users_df, products_df, sessions_df,
+                                                               model, encoder, scaler)
         })
     except IndexError as e:
         abort(400, str(e))
@@ -62,6 +64,12 @@ def load_dataset(base_path, file):
 
 
 if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description="eShoppping server")
+    parser.add_argument('model', help='path to model file')
+    parser.add_argument('port', nargs='?', type=int, default=8080)
+
+    args = parser.parse_args()
+
     print("Loading server. It may take a while...")
     data_base_path = "data/"
 
@@ -74,9 +82,11 @@ if __name__ == '__main__':
         categories_api_df = pd.DataFrame(products_df["category"].unique(), columns=["name"])
         products_api_df = products_df
 
-        model = DummyClassifier(strategy="uniform").fit([list(range(15)), list(range(15))], [0, 1])
+        model = loaders.load_model(args.model)
+        encoder = loaders.load_encoder()
+        scaler = loaders.load_scaler()
     except IOError as e:
         print("Can't load server. Error occurred: ", e)
         exit(1)
 
-    app.run(port=8080)
+    app.run(port=args.port)

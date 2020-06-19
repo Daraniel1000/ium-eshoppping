@@ -1,3 +1,5 @@
+import pickle
+
 import pandas as pd
 
 
@@ -41,3 +43,20 @@ def load_sessions(base_path, products_df, name="sessions.jsonl"):
     sessions_df["product_id"] = sessions_df["product_id"].astype(int).astype(str)  # convert id to string
     return sessions_df[["session_id", "timestamp", "user_id", "product_id", "event_type", "offered_discount",
                         "purchase_id"]]  # explicitly choose columns
+
+
+def load_pickled(path):
+    with open(path, 'rb') as f:
+        return pickle.load(f)
+
+
+def load_model(path):
+    return load_pickled(path)
+
+
+def load_encoder(path="tools/encoder.pkl"):
+    return load_pickled(path)
+
+
+def load_scaler(path="tools/scaler.pkl"):
+    return load_pickled(path)
