@@ -13,12 +13,10 @@ Test server for eShoppping
 To run the server:
 
 ```
-./run.sh model [port]
+./run.sh [port]
 ```
 
 Arguments:
-
-- ```model``` - path to model file
 
 - ```port``` (optional) - port at which to run the server (defaults to 8080)
 

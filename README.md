@@ -18,9 +18,9 @@ Test app for making predictions in some e-commerce site
 
 # How it works
 
-Server stores a model that predicts if given user would buy given product at given discount.
+Server stores two models that predicts if given user would buy given product at given discount.
 
-Client logs in as some user and chooses some product. Server polls the model with series of discounts and responds with the lowest one that got a positive response from the model.
+Client logs in as some user and chooses some product. Server polls the model the user is assigned to with series of discounts and responds with the lowest one that got a positive response from the model.
 
 # Usage
 
@@ -41,11 +41,9 @@ Arguments:
 To run the server:
 
 ```
-./run.sh server model [port]
+./run.sh server [port]
 ```
 
 Arguments:
-
-- ```model``` - model to use (A or B)
 
 - ```port``` (optional) - port at which to run the server (defaults to 8080)

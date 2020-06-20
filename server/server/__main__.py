@@ -47,31 +47,31 @@ def predict():
         abort(400, "Parameter \"user\" not passed")
     if not product_id:
         abort(400, "Parameter \"product\" not passed")
+    if not user_id.isdigit():
+        abort(400, "Parameter \"user\" is not an integer")
     try:
         return jsonify({
             'predicted_discount': predictions.predict_discount(user_id, product_id, users_df, products_df, sessions_df,
-                                                               model, encoder, scaler)
+                                                               model_assignment[assigned_group(int(user_id))], encoder,
+                                                               scaler)
         })
     except IndexError as e:
         abort(400, str(e))
 
 
-def load_dataset(base_path, file):
-    if base_path[-1] != '/':
-        base_path += '/'
-
-    return pd.read_json(base_path + file, lines=True)
+def assigned_group(uid):
+    return uid % 2
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description="eShoppping server")
-    parser.add_argument('model', help='path to model file')
     parser.add_argument('port', nargs='?', type=int, default=8080)
 
     args = parser.parse_args()
 
     print("Loading server. It may take a while...")
     data_base_path = "data/"
+    models_base_path = "models/"
 
     try:
         users_df = loaders.load_users(data_base_path)
@@ -82,9 +82,12 @@ if __name__ == '__main__':
         categories_api_df = pd.DataFrame(products_df["category"].unique(), columns=["name"])
         products_api_df = products_df
 
-        model = loaders.load_model(args.model)
+        modelA = loaders.load_model(models_base_path + "A.pkl")
+        modelB = loaders.load_model(models_base_path + "B.pkl")
         encoder = loaders.load_encoder()
         scaler = loaders.load_scaler()
+
+        model_assignment = {0: modelA, 1: modelB}
     except IOError as e:
         print("Can't load server. Error occurred: ", e)
         exit(1)
