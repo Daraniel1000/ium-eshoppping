@@ -32,7 +32,7 @@ def load_products(base_path, name="products.jsonl"):
 def load_sessions(base_path, products_df, name="sessions.jsonl"):
     org_sessions_df = load_dataset(base_path, name)
     sessions_df = org_sessions_df.copy()
-    sessions_df = sessions_df[sessions_df["product_id"].isin(
+    sessions_df = sessions_df[sessions_df["product_id"].astype('str').isin(
         products_df["product_id"])].copy()  # drop sessions not connected to existing products
     sessions_df["timestamp"] = pd.to_datetime(sessions_df["timestamp"],
                                               errors='coerce')  # convert timestamp to datetime

@@ -1,6 +1,5 @@
 import argparse
 
-import pandas as pd
 from flask import Flask, jsonify, request, abort, render_template
 
 from server import server
@@ -88,7 +87,7 @@ def buy():
         if not discount:
             abort(400, "Parameter \"discount\" not passed")
         server.register_buy(session_id, user_id, product_id, discount)
-        return jsonify({})
+        return jsonify({'success': True})
     except Exception as e:
         abort(400, str(e))
 
