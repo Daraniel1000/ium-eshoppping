@@ -50,11 +50,44 @@ def predict():
     if not user_id.isdigit():
         abort(400, "Parameter \"user\" is not an integer")
     try:
-        return jsonify({
-            'predicted_discount': predictions.predict_discount(user_id, product_id, users_df, products_df, sessions_df,
+        pred =predictions.predict_discount(user_id, product_id, users_df, products_df, sessions_df,
                                                                model_assignment[assigned_group(int(user_id))], encoder,
                                                                scaler)
+        global sessions_df
+        sessions_df = sessions_df.append(
+            {'session_id': int(sessions_df.tail(1).session_id) + 1, 'user_id': user_id, 'product_id': product_id,
+             'event_type': "VIEW_PRODUCT", 'offered_discount': pred, 'timestamp': pd.to_datetime('now')},
+            ignore_index=True)
+        return jsonify({
+            'predicted_discount': pred
         })
+    except IndexError as e:
+        abort(400, str(e))
+
+
+@app.route('/buy', methods=['GET'])
+def buy():
+    user_id = request.args.get("user")
+    product_id = request.args.get("product")
+    discount = request.args.get("discount")
+    if not user_id:
+        abort(400, "Parameter \"user\" not passed")
+    if not product_id:
+        abort(400, "Parameter \"product\" not passed")
+    if not user_id.isdigit():
+        abort(400, "Parameter \"user\" is not an integer")
+    if not discount:
+        abort(400, "Parameter \"discount\" not passed")
+    try:
+        session_id = int(sessions_df[
+                             (sessions_df.user_id == user_id) &
+                             (sessions_df.product_id == product_id) &
+                             (sessions_df.offered_discount == discount)
+                         ].sort_values('timestamp').tail(1).session_id)
+        global sessions_df
+        sessions_df = sessions_df.append({'session_id': session_id, 'user_id': user_id, 'product_id': product_id,
+              'offered_discount': discount, 'timestamp': pd.to_datetime('now'), 'event_type': 'BUY_PRODUCT'})
+        return jsonify({})
     except IndexError as e:
         abort(400, str(e))
 
