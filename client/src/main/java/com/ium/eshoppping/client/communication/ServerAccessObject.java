@@ -35,7 +35,7 @@ public class ServerAccessObject
 
     public void Buy(String userID, String productID, String discount)
     {
-        //TODO
-        return;
+        //TODO ustalić object w ServerEndpointAPI.java i odkomentować
+        //this.service.buy(userID, productID, discount);
     }
 }
