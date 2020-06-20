@@ -13,12 +13,14 @@ Test server for eShoppping
 To run the server:
 
 ```
-./run.sh [port]
+./run.sh [port] [-mode {basic, AB}]
 ```
 
 Arguments:
 
 - ```port``` (optional) - port at which to run the server (defaults to 8080)
+
+- ```mode``` (optional) - to use basic model or to performe AB test (defaults to basic)
 
 
 Server will run on given port, so you can access it locally at:

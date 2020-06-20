@@ -41,9 +41,11 @@ Arguments:
 To run the server:
 
 ```
-./run.sh server [port]
+./run.sh server [port] [-mode {basic, AB}]
 ```
 
 Arguments:
 
 - ```port``` (optional) - port at which to run the server (defaults to 8080)
+
+- ```mode``` (optional) - to use basic model or to performe AB test (defaults to basic)
