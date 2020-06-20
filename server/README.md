@@ -39,7 +39,7 @@ http://localhost:port/...
 
     Parameters: ```None```
 
-    Get list of categories
+    Get list of categories and id of session
 
 - ```products```
 
@@ -49,6 +49,12 @@ http://localhost:port/...
 
 - ```predict```
 
-    Parameters: ```user, product```
+    Parameters: ```user, product, session```
 
     Get predicted discount that should be offered to given user when looking at given product at current time
+    
+- ```buy```
+
+    Parameters: ```user, product, session, discount```
+
+    Register buy event
