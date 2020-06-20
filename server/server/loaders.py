@@ -1,3 +1,4 @@
+import os
 import pickle
 
 import pandas as pd
@@ -5,6 +6,8 @@ import pandas as pd
 
 def load_dataset(base_path, file):
     try:
+        if not (os.path.isfile(base_path + file) and os.path.getsize(base_path + file) > 0):
+            return pd.DataFrame()
         return pd.read_json(base_path + file, lines=True, convert_dates=False).convert_dtypes()
     except Exception as e:
         raise IOError("Can't create dataframe from " + base_path + file + ". " + str(e))
@@ -45,6 +48,13 @@ def load_sessions(base_path, products_df, name="sessions.jsonl"):
     return org_sessions_df, sessions_df[
         ["session_id", "timestamp", "user_id", "product_id", "event_type", "offered_discount",
          "purchase_id"]]  # explicitly choose columns
+
+
+def load_abtest(base_path, name="abtest.jsonl"):
+    abtest_df = load_dataset(base_path, name)
+    if abtest_df.empty:
+        abtest_df = pd.DataFrame(columns=['event_type', 'user_id', 'product_id', "offered_discount"], dtype='int')
+    return abtest_df
 
 
 def load_pickled(path):
