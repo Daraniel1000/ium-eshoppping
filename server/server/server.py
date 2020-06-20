@@ -13,9 +13,15 @@ class Server:
 
         self.data_base_path = data_base_path
 
-        self.org_users_df, self.users_df = loaders.load_users(data_base_path)
-        self.org_products_df, self.products_df = loaders.load_products(data_base_path)
-        self.org_sessions_df, self.sessions_df = loaders.load_sessions(data_base_path, self.products_df)
+        self.users_file_name = "users.jsonl"
+        self.products_file_name = "products.jsonl"
+        self.sessions_file_name = "sessions.jsonl"
+        self.abtest_file_name = "abtest.jsonl"
+
+        self.org_users_df, self.users_df = loaders.load_users(data_base_path, self.users_file_name)
+        self.org_products_df, self.products_df = loaders.load_products(data_base_path, self.products_file_name)
+        self.org_sessions_df, self.sessions_df = loaders.load_sessions(data_base_path, self.products_df,
+                                                                       self.sessions_file_name)
 
         self.users_api_df = self.users_df[["user_id", "name"]]
         self.categories_api_df = pd.DataFrame(self.products_df["category"].unique(), columns=["name"])
@@ -24,13 +30,16 @@ class Server:
         self.encoder = loaders.load_encoder()
         self.scaler = loaders.load_scaler()
 
-        if mode == 'basic':
-            model_a = loaders.load_model(models_base_path + "A.pkl")
-            self.model_assignment = {0: model_a, 1: model_a}
-        else:
+        self.is_ab_mode = mode == 'AB'
+
+        if self.is_ab_mode:
             model_a = loaders.load_model(models_base_path + "A.pkl")
             model_b = loaders.load_model(models_base_path + "B.pkl")
             self.model_assignment = {0: model_a, 1: model_b}
+            self.ab_test_df = loaders.load_abtest(data_base_path, self.abtest_file_name)
+        else:
+            model_a = loaders.load_model(models_base_path + "A.pkl")
+            self.model_assignment = {0: model_a, 1: model_a}
 
         self.session_id_free = self.sessions_df["session_id"].dropna().astype('int').max() + 1
         self.purchase_id_free = self.sessions_df["purchase_id"].dropna().astype('int').max() + 1
@@ -83,6 +92,10 @@ class Server:
             {'session_id': int(session), 'user_id': int(user), 'product_id': int(product), 'event_type': "VIEW_PRODUCT",
              'offered_discount': int(offered_discount),
              'timestamp': pd.to_datetime('now').strftime("%Y-%m-%dT%H:%M:%S")}, ignore_index=True)
+        if self.is_ab_mode:
+            self.ab_test_df = self.ab_test_df.append(
+                {'event_type': "VIEW_PRODUCT", 'user_id': int(user), 'product_id': int(product),
+                 "offered_discount": int(offered_discount)}, ignore_index=True)
 
     def register_buy(self, session, user, product, offered_discount):
         if not ((isinstance(session, int) or session.isdigit()) and int(session) < self.session_id_free):
@@ -102,6 +115,12 @@ class Server:
              'offered_discount': int(offered_discount),
              'timestamp': pd.to_datetime('now').strftime("%Y-%m-%dT%H:%M:%S"),
              'purchase_id': self.generate_purchase_id()}, ignore_index=True)
+        if self.is_ab_mode:
+            self.ab_test_df = self.ab_test_df.append(
+                {'event_type': "BUY_PRODUCT", 'user_id': int(user), 'product_id': int(product),
+                 "offered_discount": int(offered_discount)}, ignore_index=True)
 
     def dump_state(self):
-        self.org_sessions_df.to_json(self.data_base_path + "sessions.jsonl", orient='records', lines=True)
+        self.org_sessions_df.to_json(self.data_base_path + self.sessions_file_name, orient='records', lines=True)
+        if self.is_ab_mode:
+            self.ab_test_df.to_json(self.data_base_path + self.abtest_file_name, orient='records', lines=True)
