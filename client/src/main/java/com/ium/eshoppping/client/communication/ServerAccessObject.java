@@ -32,4 +32,10 @@ public class ServerAccessObject
     {
         return this.service.predict(userId, productID).execute().body();
     }
+
+    public void Buy(String userID, String productID, String discount)
+    {
+        //TODO
+        return;
+    }
 }

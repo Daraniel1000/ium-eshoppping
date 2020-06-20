@@ -21,6 +21,7 @@ public class DetailsController
     private final ServerAccessObject sao;
     private final Integer user;
     private final Product product;
+    private Prediction prediction;
     @FXML
     private Button backButton;
     @FXML
@@ -31,6 +32,8 @@ public class DetailsController
     private Label finalPriceLabel;
     @FXML
     private Label productDiscountLabel;
+    @FXML
+    private Button buyButton;
 
     public DetailsController(Stage stage, Parent previousParent, ServerAccessObject sao, int user, Product product)
     {
@@ -44,7 +47,7 @@ public class DetailsController
     @FXML
     public void initialize() throws IOException {
         productNameLabel.setText(this.product.productName);
-        Prediction prediction = sao.predict(user.toString(), product.productId.toString());
+        prediction = sao.predict(user.toString(), product.productId.toString());
         BigDecimal price = new BigDecimal(Double.toString(product.price));
         productPriceLabel.setText("Oryginalna cena: " + price.setScale(2));
         if(prediction.predictedDiscount == 0) {
@@ -61,6 +64,14 @@ public class DetailsController
     @FXML
     void onBackClicked(ActionEvent event)
     {
+        stage.getScene().setRoot(previousParent);
+    }
+
+
+    @FXML
+    void onBuyClicked(ActionEvent event)
+    {
+        sao.Buy(user.toString(), product.productId.toString(), prediction.predictedDiscount.toString());
         stage.getScene().setRoot(previousParent);
     }
 }
