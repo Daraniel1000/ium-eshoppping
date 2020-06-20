@@ -28,14 +28,13 @@ public class ServerAccessObject
         return this.service.getProducts(categoryName).execute().body();
     }
 
-    public Prediction predict(String userId, String productID) throws IOException
+    public Prediction predict(String userId, String productID, String session) throws IOException
     {
-        return this.service.predict(userId, productID).execute().body();
+        return this.service.predict(userId, productID, session).execute().body();
     }
 
-    public void Buy(String userID, String productID, String discount)
+    public Buy buy(String userID, String productID, String session, String discount) throws IOException
     {
-        //TODO ustalić object w ServerEndpointAPI.java i odkomentować
-        //this.service.buy(userID, productID, discount);
+        return this.service.buy(userID, productID, session, discount).execute().body();
     }
 }

@@ -13,6 +13,15 @@ public class Categories implements Serializable
     public List<Category> categories = null;
     private final static long serialVersionUID = -3332655977806056730L;
 
+    @SerializedName("session")
+    @Expose
+    public Integer session;
+
+    public Categories withSession(Integer session) {
+        this.session = session;
+        return this;
+    }
+
     public Categories withCategories(List<Category> categories) {
         this.categories = categories;
         return this;

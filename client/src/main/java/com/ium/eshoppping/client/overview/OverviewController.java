@@ -23,6 +23,7 @@ public class OverviewController
     private final Parent previousParent;
     private final ServerAccessObject sao;
     private final int userID;
+    private int session;
     @FXML
     private Button backButton;
     @FXML
@@ -44,6 +45,7 @@ public class OverviewController
 
         Categories categories = null;
         categories = sao.getCategories();
+        session = categories.session;
         for (Category i: categories.categories) {
             categoriesList.getItems().add(i);
         }
@@ -82,7 +84,7 @@ public class OverviewController
     {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/details.fxml"));
         DetailsController controller = new DetailsController(stage, stage.getScene().getRoot(), sao, this.userID,
-                                                             product);
+                                                             product, session);
         loader.setController(controller);
         Parent root;
         try

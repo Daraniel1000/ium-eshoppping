@@ -1,8 +1,10 @@
 package com.ium.eshoppping.client.details;
 
 import com.ium.eshoppping.client.communication.ServerAccessObject;
+import com.ium.eshoppping.client.communication.data.Buy;
 import com.ium.eshoppping.client.communication.data.Prediction;
 import com.ium.eshoppping.client.communication.data.Product;
+import com.ium.eshoppping.client.utils.FXHelper;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
@@ -22,6 +24,7 @@ public class DetailsController
     private final Integer user;
     private final Product product;
     private Prediction prediction;
+    private final Integer session;
     @FXML
     private Button backButton;
     @FXML
@@ -35,19 +38,20 @@ public class DetailsController
     @FXML
     private Button buyButton;
 
-    public DetailsController(Stage stage, Parent previousParent, ServerAccessObject sao, int user, Product product)
+    public DetailsController(Stage stage, Parent previousParent, ServerAccessObject sao, int user, Product product, int session)
     {
         this.stage = stage;
         this.previousParent = previousParent;
         this.sao = sao;
         this.user = user;
         this.product = product;
+        this.session = session;
     }
 
     @FXML
     public void initialize() throws IOException {
         productNameLabel.setText(this.product.productName);
-        prediction = sao.predict(user.toString(), product.productId.toString());
+        prediction = sao.predict(user.toString(), product.productId.toString(), session.toString());
         BigDecimal price = new BigDecimal(Double.toString(product.price));
         productPriceLabel.setText("Oryginalna cena: " + price.setScale(2));
         if(prediction.predictedDiscount == 0) {
@@ -71,7 +75,15 @@ public class DetailsController
     @FXML
     void onBuyClicked(ActionEvent event)
     {
-        sao.Buy(user.toString(), product.productId.toString(), prediction.predictedDiscount.toString());
-        stage.getScene().setRoot(previousParent);
+        try {
+            Buy buy = sao.buy(user.toString(), product.productId.toString(), session.toString(), prediction.predictedDiscount.toString());
+            if(buy.success)
+                stage.getScene().setRoot(previousParent);
+            else
+                FXHelper.showErrorDialog("Eshoppping - błąd zakupu", "Nie udało się kupić produktu.");
+        } catch (IOException e) {
+            FXHelper.showErrorDialog("Eshoppping - błąd połączenia", "Nie udało się kupić produktu.");
+            e.printStackTrace();
+        }
     }
 }
